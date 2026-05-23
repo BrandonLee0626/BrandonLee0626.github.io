@@ -1,0 +1,300 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Publication — Brandon Minjae Lee</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<style>
+			html { scroll-behavior: smooth; }
+
+			#navbar {
+				position: fixed; top: 0; left: 35%;
+				width: calc(100% - 35%);
+				z-index: 200;
+				background: rgba(255,255,255,0.97);
+				backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+				border-bottom: 1px solid #efefef;
+				display: flex; align-items: center; padding: 0 3em;
+				transition: left 0.5s ease, width 0.5s ease;
+			}
+			#navbar a {
+				display: inline-block; padding: 0.9em 1em;
+				font-size: 0.72em; font-weight: 600;
+				letter-spacing: 0.15em; text-transform: uppercase;
+				color: #bbb; text-decoration: none;
+				border-bottom: 2px solid transparent;
+				transition: color 0.25s, border-color 0.25s;
+			}
+			#navbar a.active { color: #49bf9d; border-bottom-color: #49bf9d; }
+			@media (hover: hover) and (pointer: fine) {
+				#navbar a:hover { color: #49bf9d; border-bottom-color: #49bf9d; }
+			}
+
+			#header { transition: width 0.35s ease, padding 0.35s ease; }
+			#header .image.avatar { transition: width 0.35s ease, margin-bottom 0.35s ease; }
+			#header h1 { transition: font-size 0.35s ease, line-height 0.35s ease, opacity 0.35s ease; }
+			#main { transition: margin-left 0.35s ease, width 0.35s ease, opacity 0.3s ease; }
+			body.page-in  #main { opacity: 0; }
+			body.page-out #main { opacity: 0; pointer-events: none; }
+
+			body.no-transition *, body.no-transition *::before, body.no-transition *::after {
+				transition: none !important;
+			}
+
+			body.shrunk #header { width: 18%; padding: 3.5em 1.8em; }
+			body.shrunk #header .image.avatar { width: 3.2em; margin-bottom: 0.5em; }
+			body.shrunk #header h1 { font-size: 0.8em; line-height: 1.45em; opacity: 0.7; }
+			body.shrunk #main {
+				margin-left: 18%;
+				width: calc(100% - 18%);
+				max-width: none;
+				padding: 8em max(2em, calc((100% - 72em) / 2)) 4em;
+			}
+			body.shrunk #navbar { left: 18%; width: calc(100% - 18%); }
+
+			.back-link {
+				display: inline-block; margin-bottom: 1.5em;
+				font-size: 0.85em; color: #aaa; text-decoration: none;
+			}
+			.back-link:hover { color: #49bf9d; }
+			.pub-meta { color: #888; margin-bottom: 1.5em; font-size: 0.95em; line-height: 1.8; }
+			.pub-links { display: flex; gap: 0.6em; flex-wrap: wrap; margin-bottom: 2em; }
+			.pub-links a {
+				padding: 0.45em 1.1em; border: 1px solid #ddd; border-radius: 4px;
+				font-size: 0.8em; font-weight: 600; text-decoration: none; color: #666;
+				letter-spacing: 0.05em; transition: border-color 0.2s, color 0.2s;
+			}
+			.pub-links a:hover { border-color: #49bf9d; color: #49bf9d; }
+			.tldr {
+				background: #f9f9f9; border-left: 3px solid #49bf9d;
+				padding: 1em 1.2em; border-radius: 0 4px 4px 0; margin-bottom: 2em;
+			}
+			.tldr strong { color: #49bf9d; margin-right: 0.4em; }
+			pre {
+				background: #f4f4f4; padding: 1.2em; border-radius: 4px;
+				font-size: 0.8em; overflow-x: auto; line-height: 1.6;
+			}
+			#pub-not-found { color: #aaa; padding: 4em 0; }
+
+			@media screen and (max-width: 980px) {
+				#header h1 br { display: inline !important; }
+			}
+
+			/* Mobile: navbar full-width, disable shrunk sidebar, no animations */
+			@media screen and (max-width: 980px) {
+				#navbar {
+					left: 0 !important;
+					width: 100% !important;
+					padding: 0 1.5em;
+					overflow-x: auto;
+					-webkit-overflow-scrolling: touch;
+				}
+				#header {
+					background-position: top left, center center !important;
+					background-size: auto, cover !important;
+				}
+				#header, #header .image.avatar, #header h1, #main, #navbar {
+					transition: none !important;
+				}
+				body.shrunk #header {
+					width: 100% !important;
+					padding: 6em 4em !important;
+				}
+				body.shrunk #header .image.avatar {
+					width: 6.25em !important;
+					margin-bottom: 1em !important;
+				}
+				body.shrunk #header h1 {
+					font-size: 1.75em !important;
+					line-height: 1.75em !important;
+					opacity: 1 !important;
+				}
+				body.shrunk #main {
+					margin-left: 0 !important;
+					width: 100% !important;
+					padding-top: 5em !important;
+					max-width: none !important;
+				}
+				body.shrunk #navbar {
+					left: 0 !important;
+					width: 100% !important;
+				}
+			}
+
+			/* Small screens: compact nav */
+			@media screen and (max-width: 736px) {
+				#navbar { padding: 0 0.75em; }
+				#navbar a { padding: 0.75em 0.6em; font-size: 0.65em; }
+			}
+		</style>
+	</head>
+	<body class="is-preload">
+		<script>
+			var _t = sessionStorage.getItem('transition');
+			if (_t !== null) {
+				sessionStorage.removeItem('transition');
+				document.body.classList.add('no-transition');
+				if (_t === 'shrunk') document.body.classList.add('shrunk');
+				document.body.classList.add('page-in');
+			} else {
+				/* 브라우저 앞으로가기 등 — shrunkState로 복원 */
+				var _s = sessionStorage.getItem('shrunkState');
+				if (_s === 'shrunk') {
+					document.body.classList.add('no-transition');
+					document.body.classList.add('shrunk');
+				}
+			}
+		</script>
+
+		<!-- Header -->
+		<header id="header">
+			<div class="inner">
+				<a href="../index.html" class="image avatar"><img src="../images/profile.JPG" alt="Brandon Minjae Lee" /></a>
+				<h1><strong>Brandon Minjae Lee</strong><br />
+				Undergraduate Researcher<br />
+				<a href="https://www.dgist.ac.kr">DGIST</a> · <a href="https://sites.google.com/view/distributed-ai-lab/home">CORE-AI Lab</a></h1>
+			</div>
+		</header>
+
+		<!-- Nav Bar -->
+		<nav id="navbar">
+			<a href="../index.html#one">About</a>
+			<a href="../index.html#education">Education</a>
+			<a href="../index.html#experience">Experience</a>
+			<a href="../index.html#publications" class="active">Publications</a>
+			<a href="../index.html#awards">Awards</a>
+			<a href="../index.html#three">Contact</a>
+		</nav>
+
+		<!-- Main -->
+		<div id="main">
+			<section id="pub-content">
+				<p id="pub-not-found" style="display:none;">Publication not found.</p>
+			</section>
+		</div>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="inner">
+				<ul class="icons">
+					<li><a href="https://github.com/BrandonLee0626" class="icon brands fa-github"><span class="label">Github</span></a></li>
+					<li><a href="mailto:leeminjae0626@dgist.ac.kr" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+				</ul>
+				<ul class="copyright">
+					<li>&copy; Brandon Minjae Lee</li>
+				</ul>
+			</div>
+		</footer>
+
+		<!-- Scripts -->
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script src="../assets/js/main.js"></script>
+		<script src="../assets/js/publications.js"></script>
+		<script>
+			(function () {
+				var body = document.body;
+				var navbar = document.getElementById('navbar');
+				var header = document.getElementById('header');
+
+				/* ── 모바일: header를 navbar 높이만큼 아래로 ── */
+				function updateHeaderOffset() {
+					if (window.innerWidth <= 980) {
+						header.style.marginTop = navbar.offsetHeight + 'px';
+					} else {
+						header.style.marginTop = '';
+					}
+				}
+				updateHeaderOffset();
+				window.addEventListener('resize', updateHeaderOffset);
+
+				/* ── Fade-in + no-transition 해제 ── */
+				requestAnimationFrame(function () {
+					requestAnimationFrame(function () {
+						body.classList.remove('page-in', 'no-transition');
+					});
+				});
+
+				/* ── bfcache 복원 시 page-out 제거 ── */
+				window.addEventListener('pageshow', function (e) {
+					if (e.persisted) {
+						body.classList.remove('page-out', 'page-in', 'no-transition');
+					}
+				});
+
+				/* ── 뒤로가기: shrunk 저장 + scrollTarget 저장 + hash 없이 이동 ── */
+				document.addEventListener('click', function (e) {
+					var link = e.target.closest('a.back-link');
+					if (!link) return;
+					e.preventDefault();
+					var href = link.href;
+					var hashIdx = href.indexOf('#');
+					var hash = hashIdx !== -1 ? href.slice(hashIdx + 1) : null;
+					sessionStorage.setItem('transition', body.classList.contains('shrunk') ? 'shrunk' : 'normal');
+					if (hash) sessionStorage.setItem('scrollTarget', hash);
+					body.classList.add('page-out');
+					setTimeout(function () {
+						window.location.href = hashIdx !== -1 ? href.slice(0, hashIdx) : href;
+					}, 300);
+				});
+
+				/* ── Render publication from URL ?id=xxx ── */
+				var id  = new URLSearchParams(window.location.search).get('id');
+				var pub = PUBLICATIONS.find(function (p) { return p.id === id; });
+				var section = document.getElementById('pub-content');
+
+				if (!pub) {
+					document.getElementById('pub-not-found').style.display = '';
+					return;
+				}
+
+				document.title = pub.title + ' — Brandon Minjae Lee';
+
+				var authorsHtml = pub.authors.replace(
+					'Brandon Minjae Lee',
+					'<strong>Brandon Minjae Lee</strong>'
+				);
+
+				var linksHtml = '';
+				var linkLabels = { pdf: 'PDF', arxiv: 'arXiv', code: 'Code', poster: 'Poster' };
+				if (pub.links) {
+					Object.keys(linkLabels).forEach(function (key) {
+						if (pub.links[key]) {
+							linksHtml += '<a href="' + pub.links[key] + '">' + linkLabels[key] + '</a>';
+						}
+					});
+				}
+
+				var contributionsHtml = '';
+				if (pub.contributions && pub.contributions.length) {
+					contributionsHtml = '<h3>Key Contributions</h3><ul>'
+						+ pub.contributions.map(function (c) { return '<li>' + c + '</li>'; }).join('')
+						+ '</ul>';
+				}
+
+				var bibtexHtml = pub.bibtex
+					? '<h3>BibTeX</h3><pre>' + pub.bibtex.replace(/</g, '&lt;') + '</pre>'
+					: '';
+
+				var thumbHtml = pub.thumb
+					? '<img src="../images/thumbs/' + pub.thumb + '" alt="' + pub.title + '" style="width:100%;border-radius:4px;margin-bottom:2em;" />'
+					: '';
+
+				section.innerHTML =
+					'<a href="../index.html#publications" class="back-link">← Publications</a>'
+					+ '<header class="major"><h2>' + pub.title + '</h2></header>'
+					+ thumbHtml
+					+ '<div class="pub-meta">' + authorsHtml + '<br /><em>' + pub.venue + '</em> &nbsp;·&nbsp; ' + pub.year + '</div>'
+					+ (linksHtml ? '<div class="pub-links">' + linksHtml + '</div>' : '')
+					+ (pub.tldr ? '<div class="tldr"><strong>TL;DR</strong>' + pub.tldr + '</div>' : '')
+					+ (pub.abstract ? '<h3>Abstract</h3><p>' + pub.abstract + '</p>' : '')
+					+ contributionsHtml
+					+ bibtexHtml;
+			})();
+		</script>
+
+	</body>
+</html>

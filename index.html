@@ -1,0 +1,1373 @@
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Brandon Minjae Lee</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<style>
+			/* Smooth scroll */
+			html { scroll-behavior: smooth; }
+
+			/* Nav bar */
+			#navbar {
+				position: fixed;
+				top: 0;
+				left: 35%;
+				width: calc(100% - 35%);
+				z-index: 200;
+				background: rgba(255, 255, 255, 0.97);
+				backdrop-filter: blur(6px);
+				-webkit-backdrop-filter: blur(6px);
+				border-bottom: 1px solid #efefef;
+				display: flex;
+				align-items: center;
+				padding: 0 3em;
+				transition: left 0.35s ease, width 0.35s ease;
+			}
+			#navbar a {
+				display: inline-block;
+				padding: 0.9em 1em;
+				font-size: 0.72em;
+				font-weight: 600;
+				letter-spacing: 0.15em;
+				text-transform: uppercase;
+				color: #bbb;
+				text-decoration: none;
+				border-bottom: 2px solid transparent;
+				transition: color 0.25s, border-color 0.25s;
+			}
+			#navbar a.active {
+				color: #49bf9d;
+				border-bottom-color: #49bf9d;
+			}
+			@media (hover: hover) and (pointer: fine) {
+				#navbar a:hover { color: #49bf9d; border-bottom-color: #49bf9d; }
+			}
+
+			/* Sidebar + main transitions */
+			#header {
+				transition: width 0.35s ease, padding 0.35s ease;
+			}
+			#header .image.avatar {
+				transition: width 0.35s ease, margin-bottom 0.35s ease;
+			}
+			#header h1 {
+				transition: font-size 0.35s ease, line-height 0.35s ease, opacity 0.35s ease;
+			}
+			#main {
+				transition: margin-left 0.35s ease, width 0.35s ease, opacity 0.3s ease;
+			}
+			body.page-in  #main { opacity: 0; }
+			body.page-out #main { opacity: 0; pointer-events: none; }
+
+			body.no-transition *, body.no-transition *::before, body.no-transition *::after {
+				transition: none !important;
+			}
+
+			/* Shrunk state — sidebar narrows, main expands */
+			body.shrunk #header {
+				width: 18%;
+				padding: 3.5em 1.8em;
+			}
+			body.shrunk #header .image.avatar {
+				width: 3.2em;
+				margin-bottom: 0.5em;
+			}
+			body.shrunk #header h1 {
+				font-size: 0.8em;
+				line-height: 1.45em;
+				opacity: 0.7;
+			}
+			body.shrunk #main {
+				margin-left: 18%;
+				width: calc(100% - 18%);
+				max-width: none;
+				padding: 8em max(2em, calc((100% - 72em) / 2)) 4em;
+			}
+			body.shrunk #navbar {
+				left: 18%;
+				width: calc(100% - 18%);
+			}
+
+			/* Publication card hover overlay */
+			a.pub-card {
+				position: relative;
+				overflow: hidden;
+				display: block;
+			}
+			a.pub-card img {
+				display: block;
+				width: 100%;
+				transition: transform 0.4s ease;
+			}
+			a.pub-card:hover img {
+				transform: scale(1.05);
+			}
+			.pub-overlay {
+				position: absolute;
+				inset: 0;
+				background: rgba(73, 191, 157, 0.88);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				opacity: 0;
+				transition: opacity 0.35s ease;
+			}
+			a.pub-card:hover .pub-overlay {
+				opacity: 1;
+			}
+			.pub-overlay span {
+				color: #fff;
+				font-size: 0.85em;
+				font-weight: 700;
+				letter-spacing: 0.18em;
+				text-transform: uppercase;
+				border: 2px solid rgba(255, 255, 255, 0.85);
+				padding: 0.5em 1.3em;
+				border-radius: 4px;
+			}
+
+			/* Experience entries */
+			.exp-list { margin-bottom: 1.5em; }
+			.exp-item {
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-start;
+				padding: 1.2em 0;
+				border-bottom: 1px solid #f0f0f0;
+			}
+			.exp-item:first-child { padding-top: 0.3em; }
+			.exp-item:last-child { border-bottom: none; padding-bottom: 0; }
+			.exp-info strong { display: block; color: #555; margin-bottom: 0.2em; }
+			.exp-info .exp-role { display: block; font-style: italic; color: #666; font-size: 0.95em; margin-bottom: 0.15em; }
+			.exp-info .exp-detail { display: block; font-size: 0.88em; color: #999; }
+			.exp-meta { text-align: right; font-size: 0.85em; color: #888; white-space: nowrap; flex-shrink: 0; margin-left: 2em; line-height: 1.6; }
+
+			/* Restore br in header h1 on all mobile sizes */
+			@media screen and (max-width: 980px) {
+				#header h1 br { display: inline !important; }
+			}
+
+			/* Mobile: navbar full-width, disable shrunk sidebar, no animations */
+			@media screen and (max-width: 980px) {
+				#navbar {
+					left: 0 !important;
+					width: 100% !important;
+					padding: 0 1.5em;
+					overflow-x: auto;
+					-webkit-overflow-scrolling: touch;
+				}
+				/* Prevent parallax JS from overriding background-position on mobile */
+				#header {
+					background-position: top left, center center !important;
+					background-size: auto, cover !important;
+				}
+				#header, #header .image.avatar, #header h1, #main, #navbar {
+					transition: none !important;
+				}
+				body.shrunk #header {
+					width: 100% !important;
+					padding: 6em 4em !important;
+				}
+				body.shrunk #header .image.avatar {
+					width: 6.25em !important;
+					margin-bottom: 1em !important;
+				}
+				body.shrunk #header h1 {
+					font-size: 1.75em !important;
+					line-height: 1.75em !important;
+					opacity: 1 !important;
+				}
+				body.shrunk #main {
+					margin-left: 0 !important;
+					width: 100% !important;
+					padding: 6em 4em !important;
+					max-width: none !important;
+				}
+			}
+
+			/* Touch devices: always show pub overlay */
+			@media (hover: none) {
+				.pub-overlay {
+					opacity: 0.75;
+				}
+			}
+
+			/* Small screens: compact nav, stack exp items */
+			@media screen and (max-width: 736px) {
+				#navbar {
+					padding: 0 0.75em;
+				}
+				#navbar a {
+					padding: 0.75em 0.6em;
+					font-size: 0.65em;
+				}
+				.exp-item {
+					flex-direction: column;
+				}
+				.exp-meta {
+					margin-left: 0;
+					margin-top: 0.3em;
+					text-align: left;
+					white-space: normal;
+				}
+			}
+
+			/* ── Schedule calendar ── */
+			.cal-header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin-bottom: 0.75em;
+			}
+			.cal-month-label { font-weight: 700; font-size: 1em; color: #444; letter-spacing: 0.02em; }
+			.cal-nav {
+				background: none;
+				border: 1px solid #e0e0e0;
+				border-radius: 6px;
+				cursor: pointer;
+				font-size: 1.1em;
+				line-height: 1;
+				padding: 0.2em 0.6em;
+				color: #888;
+				transition: background 0.15s, color 0.15s;
+			}
+			.cal-nav:hover { background: #f5f5f5; color: #333; }
+
+			.cal-grid {
+				display: grid;
+				grid-template-columns: repeat(7, 1fr);
+				gap: 3px;
+			}
+			.cal-dow {
+				text-align: center;
+				font-size: 0.7em;
+				font-weight: 700;
+				letter-spacing: 0.07em;
+				text-transform: uppercase;
+				color: #bbb;
+				padding-bottom: 0.45em;
+			}
+			.cal-cell {
+				min-height: 64px;
+				border-radius: 7px;
+				padding: 0.28em 0.38em;
+				background: #fafafa;
+				border: 1px solid #efefef;
+				overflow: hidden;
+				cursor: pointer;
+				transition: border-color 0.15s, background 0.15s;
+			}
+			.cal-cell.empty { background: transparent; border-color: transparent; cursor: default; }
+			.cal-cell:not(.empty):hover { border-color: #c8d4f0; background: #f4f7ff; }
+			.cal-cell.today  { background: #f0f4ff; border-color: #c5d5ff; }
+			.cal-cell.selected { background: #e2eaff !important; border-color: #8ca8f0 !important; }
+			.cal-cell-num {
+				font-size: 0.76em;
+				font-weight: 600;
+				color: #aaa;
+				display: block;
+				margin-bottom: 0.18em;
+				line-height: 1.6;
+			}
+			.cal-cell.today .cal-cell-num {
+				display: inline-block;
+				color: #fff;
+				background: #5577ee;
+				width: 1.55em;
+				height: 1.55em;
+				line-height: 1.55em;
+				text-align: center;
+				border-radius: 50%;
+				margin-bottom: 0.22em;
+			}
+			.cal-event-chip {
+				font-size: 0.67em;
+				border-radius: 3px;
+				padding: 0.1em 0.38em;
+				margin-bottom: 0.14em;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: block;
+			}
+			.cal-event-chip.event     { background: #eef2ff; color: #5566bb; }
+			.cal-event-chip.deadline  { background: #fff4f0; color: #cc5533; }
+			.cal-event-chip.todo      { background: #f0faf2; color: #448855; }
+			.cal-event-chip.recurring { background: #f0faf6; color: #3a8a6a; }
+			.cal-event-chip.more      { background: #f5f5f5; color: #aaa; }
+			/* Multi-day event bars */
+			.cal-week         { grid-column: 1 / -1; display: grid; }
+			.cal-days-inner   { grid-row: 1; grid-column: 1; display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+			.cal-events-inner { grid-row: 1; grid-column: 1; display: grid; grid-template-columns: repeat(7, 1fr); column-gap: 3px; align-self: end; pointer-events: none; padding-bottom: 3px; z-index: 1; }
+			.cal-event-bar {
+				font-size: 0.67em;
+				padding: 0.08em 0.4em;
+				height: 1.5em;
+				line-height: 1.5em;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				border-radius: 0;
+				cursor: pointer;
+				pointer-events: auto;
+				transition: opacity 0.15s;
+			}
+			.cal-event-bar:hover { opacity: 0.78; }
+			.cal-event-bar.event     { background: #eef2ff; color: #5566bb; }
+			.cal-event-bar.deadline  { background: #fff4f0; color: #cc5533; }
+			.cal-event-bar.todo      { background: #f0faf2; color: #448855; }
+			.cal-event-bar.recurring { background: #f0faf6; color: #3a8a6a; }
+			.cal-event-bar.cap-start { border-radius: 3px 0 0 3px; }
+			.cal-event-bar.cap-end   { border-radius: 0 3px 3px 0; }
+			.cal-event-bar.cap-both  { border-radius: 3px; }
+
+			/* Day detail panel */
+			#cal-detail {
+				margin-top: 1.1em;
+				padding-top: 1em;
+				border-top: 1px solid #efefef;
+			}
+			.cal-detail-header {
+				font-size: 0.82em;
+				font-weight: 700;
+				color: #666;
+				margin-bottom: 0.7em;
+				letter-spacing: 0.02em;
+			}
+			.cal-detail-empty {
+				font-size: 0.85em;
+				color: #ccc;
+				font-style: italic;
+			}
+			.cal-detail-item {
+				display: flex;
+				align-items: flex-start;
+				gap: 0.75em;
+				padding: 0.6em 0;
+				border-bottom: 1px solid #f4f4f4;
+			}
+			.cal-detail-item:last-child { border-bottom: none; }
+			.cal-detail-dot {
+				width: 8px; height: 8px;
+				border-radius: 50%;
+				flex-shrink: 0;
+				margin-top: 0.38em;
+			}
+			.cal-detail-dot.event     { background: #5566bb; }
+			.cal-detail-dot.deadline  { background: #cc5533; }
+			.cal-detail-dot.todo      { background: #448855; }
+			.cal-detail-dot.recurring { background: #3a8a6a; }
+			.cal-detail-info { flex: 1; min-width: 0; }
+			.cal-detail-name {
+				font-size: 0.9em;
+				font-weight: 600;
+				color: #444;
+				display: flex;
+				align-items: center;
+				gap: 0.5em;
+				flex-wrap: wrap;
+			}
+			.cal-detail-tag {
+				font-size: 0.75em;
+				font-weight: 500;
+				padding: 0.1em 0.5em;
+				border-radius: 20px;
+			}
+			.cal-detail-tag.event     { background: #eef2ff; color: #5566bb; }
+			.cal-detail-tag.deadline  { background: #fff4f0; color: #cc5533; }
+			.cal-detail-tag.todo      { background: #f0faf2; color: #448855; }
+			.cal-detail-tag.recurring { background: #f0faf6; color: #3a8a6a; }
+			.cal-detail-meta { font-size: 0.8em; color: #999; margin-top: 0.2em; }
+
+			/* Undated TODOs below calendar */
+			.sched-undated { margin-top: 1.4em; }
+			.sched-undated h3 {
+				font-size: 0.72em;
+				text-transform: uppercase;
+				letter-spacing: 0.12em;
+				color: #bbb;
+				margin-bottom: 0.65em;
+				padding-bottom: 0.35em;
+				border-bottom: 1px solid #efefef;
+			}
+			.todo-item {
+				display: flex;
+				align-items: flex-start;
+				gap: 0.65em;
+				padding: 0.5em 0;
+				border-bottom: 1px solid #f3f3f3;
+			}
+			.todo-item:last-child { border-bottom: none; }
+			.todo-check {
+				width: 1em; height: 1em;
+				border: 2px solid #ddd;
+				border-radius: 4px;
+				flex-shrink: 0;
+				margin-top: 0.15em;
+			}
+			.todo-info strong { display: block; color: #555; font-size: 0.92em; }
+			.todo-info .todo-due { font-size: 0.79em; color: #bbb; margin-top: 0.08em; }
+
+			.sched-sync { font-size: 0.76em; color: #ccc; margin-top: 1.2em; }
+
+			@media screen and (max-width: 736px) {
+				.cal-cell { min-height: 48px; padding: 0.2em 0.25em; }
+				.cal-event-chip { font-size: 0.61em; }
+			}
+		</style>
+	</head>
+	<body class="is-preload">
+		<script>
+			var _t = sessionStorage.getItem('transition');
+			if (_t !== null) {
+				sessionStorage.removeItem('transition');
+				document.body.classList.add('no-transition');
+				// Don't restore shrunk state on mobile — background stays static
+				if (_t === 'shrunk' && window.innerWidth > 980) document.body.classList.add('shrunk');
+				document.body.classList.add('page-in');
+			}
+		</script>
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a href="#" class="image avatar"><img src="images/profile.JPG" alt="Brandon Minjae Lee" /></a>
+					<h1><strong>Brandon Minjae Lee</strong><br />
+					Undergraduate Researcher<br />
+					<a href="https://www.dgist.ac.kr">DGIST</a> · <a href="https://sites.google.com/view/distributed-ai-lab/home">CORE-AI Lab</a></h1>
+				</div>
+			</header>
+
+		<!-- Nav Bar -->
+			<nav id="navbar">
+				<a href="#one">About</a>
+				<a href="#education">Education</a>
+				<a href="#experience">Experience</a>
+				<a href="#publications">Publications</a>
+				<a href="#awards">Awards</a>
+				<a href="#schedule">Schedule</a>
+				<a href="#three">Contact</a>
+			</nav>
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- About -->
+					<section id="one">
+						<header class="major">
+							<h2>About Me</h2>
+						</header>
+						<p>Dedicated to advancing the frontiers of Lifelong Learning in Robotics. Currently a researcher at DGIST's CORE AI Lab under the guidance of Prof. Jinhyun So.</p>
+
+						<h3>Research Interests</h3>
+						<ul class="feature-icons">
+							<li class="icon solid fa-sync-alt"><strong> Model Plasticity</strong> — Exploring Continual Merging to seamlessly integrate evolving knowledge.</li>
+							<li class="icon solid fa-shield-alt"><strong> Data Privacy &amp; Efficiency</strong> — Investigating Machine Unlearning to ensure safe and adaptive AI memory.</li>
+							<li class="icon solid fa-robot"><strong> Embodied AI</strong> — Scaling Vision-Language-Action (VLA) models for real-world robotic applications.</li>
+						</ul>
+						<p><em>Driven by the goal of creating robots that learn, adapt, and evolve throughout their entire operational lifespan.</em></p>
+						<ul class="actions">
+							<li><a href="assets/cv.pdf" download class="button icon solid fa-download">Download CV</a></li>
+						</ul>
+					</section>
+
+				<!-- Education -->
+					<section id="education">
+						<h2>Education</h2>
+						<div class="row">
+							<div class="col-12">
+								<h3>DGIST &mdash; Daegu Gyeongbuk Institute of Science and Technology</h3>
+								<p>
+									Bachelor of Science in Computer Engineering &nbsp;·&nbsp; 2023 – Present<br />
+									GPA: 3.93 / 4.30 &nbsp;·&nbsp; Daegu, South Korea
+								</p>
+							</div>
+						</div>
+					</section>
+
+				<!-- Experience -->
+					<section id="experience">
+						<h2>Experience</h2>
+
+						<h3>Research</h3>
+						<div class="exp-list">
+							<div class="exp-item">
+								<div class="exp-info">
+									<strong>CORE AI Lab, DGIST</strong>
+									<span class="exp-role">Undergraduate Researcher</span>
+									<span class="exp-detail">Advisor: Prof. Jinhyun So</span>
+								</div>
+								<div class="exp-meta">Sep. 2024 – Present<br />Daegu, South Korea</div>
+							</div>
+							<div class="exp-item">
+								<div class="exp-info">
+									<strong>ILT Lab, DGIST</strong>
+									<span class="exp-role">Undergraduate Researcher</span>
+									<span class="exp-detail">Advisor: Prof. Daewon Seo</span>
+								</div>
+								<div class="exp-meta">Mar. – Aug. 2024<br />Daegu, South Korea</div>
+							</div>
+						</div>
+
+						<h3>Work</h3>
+						<div class="exp-list">
+							<div class="exp-item">
+								<div class="exp-info">
+									<strong>UNIVA</strong>
+									<span class="exp-role">Part-time Intern, AI Team</span>
+									<span class="exp-detail"><a href="https://univa.ai/">univa.ai</a></span>
+								</div>
+								<div class="exp-meta">Oct. 2025 – Present<br />Daegu, South Korea</div>
+							</div>
+						</div>
+					</section>
+
+				<!-- Publications -->
+					<section id="publications">
+						<h2>Publications</h2>
+						<div class="row" id="pub-grid"></div>
+					</section>
+
+				<!-- Awards -->
+					<section id="awards">
+						<h2>Honors &amp; Awards</h2>
+						<div class="exp-list">
+							<div class="exp-item">
+								<div class="exp-info">
+									<strong>DGIST President's Fellowship (DPF)</strong>
+									<span class="exp-detail">DGIST, Daegu, South Korea</span>
+								</div>
+								<div class="exp-meta">Jun. 2024 – Present</div>
+							</div>
+						</div>
+					</section>
+
+				<!-- Schedule -->
+					<section id="schedule">
+						<h2>Schedule</h2>
+						<p style="color:#aaa;font-size:0.9em;margin-bottom:1.5em;">Public items from my research schedule — automatically synced from Notion.</p>
+						<div id="schedule-list">
+							<p style="color:#ccc;font-style:italic;font-size:0.9em;">Loading…</p>
+						</div>
+					</section>
+
+				<!-- Three -->
+					<section id="three">
+						<h2>Get In Touch</h2>
+						<p>Feel free to reach out for research collaborations, questions, or just to say hello. I am always open to new ideas and opportunities.</p>
+						<div class="row">
+							<div class="col-8 col-12-small">
+								<form method="post" action="https://formspree.io/f/mbdwzvlq">
+									<div class="row gtr-uniform gtr-50">
+										<div class="col-6 col-12-xsmall"><input type="text" name="name" id="name" placeholder="Name" /></div>
+										<div class="col-6 col-12-xsmall"><input type="email" name="email" id="email" placeholder="Email" /></div>
+										<div class="col-12"><textarea name="message" id="message" placeholder="Message" rows="4"></textarea></div>
+									</div>
+									<ul class="actions" style="margin-top: 1em;">
+										<li><input type="submit" value="Send Message" /></li>
+									</ul>
+								</form>
+							</div>
+							<div class="col-4 col-12-small">
+								<ul class="labeled-icons">
+									<li>
+										<h3 class="icon solid fa-home"><span class="label">Address</span></h3>
+										DGIST, CORE-AI Lab<br />
+										Daegu, South Korea
+									</li>
+									<li>
+										<h3 class="icon solid fa-mobile-alt"><span class="label">Phone</span></h3>
+										+82 10-2784-0626
+									</li>
+									<li>
+										<h3 class="icon solid fa-envelope"><span class="label">Email</span></h3>
+										<a href="mailto:leeminjae0626@dgist.ac.kr">leeminjae0626@dgist.ac.kr</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</section>
+
+				<!-- Four -->
+				<!--
+					<section id="four">
+						<h2>Elements</h2>
+
+						<section>
+							<h4>Text</h4>
+							<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
+							This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
+							This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
+							<hr />
+							<header>
+								<h4>Heading with a Subtitle</h4>
+								<p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>
+							</header>
+							<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
+							<header>
+								<h5>Heading with a Subtitle</h5>
+								<p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>
+							</header>
+							<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
+							<hr />
+							<h2>Heading Level 2</h2>
+							<h3>Heading Level 3</h3>
+							<h4>Heading Level 4</h4>
+							<h5>Heading Level 5</h5>
+							<h6>Heading Level 6</h6>
+							<hr />
+							<h5>Blockquote</h5>
+							<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
+							<h5>Preformatted</h5>
+							<pre><code>i = 0;
+
+while (!deck.isInOrder()) {
+print 'Iteration ' + i;
+deck.shuffle();
+i++;
+}
+
+print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
+						</section>
+
+						<section>
+							<h4>Lists</h4>
+							<div class="row">
+								<div class="col-6 col-12-xsmall">
+									<h5>Unordered</h5>
+									<ul>
+										<li>Dolor pulvinar etiam magna etiam.</li>
+										<li>Sagittis adipiscing lorem eleifend.</li>
+										<li>Felis enim feugiat dolore viverra.</li>
+									</ul>
+									<h5>Alternate</h5>
+									<ul class="alt">
+										<li>Dolor pulvinar etiam magna etiam.</li>
+										<li>Sagittis adipiscing lorem eleifend.</li>
+										<li>Felis enim feugiat dolore viverra.</li>
+									</ul>
+								</div>
+								<div class="col-6 col-12-xsmall">
+									<h5>Ordered</h5>
+									<ol>
+										<li>Dolor pulvinar etiam magna etiam.</li>
+										<li>Etiam vel felis at lorem sed viverra.</li>
+										<li>Felis enim feugiat dolore viverra.</li>
+										<li>Dolor pulvinar etiam magna etiam.</li>
+										<li>Etiam vel felis at lorem sed viverra.</li>
+										<li>Felis enim feugiat dolore viverra.</li>
+									</ol>
+									<h5>Icons</h5>
+									<ul class="icons">
+										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+										<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+										<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+										<li><a href="#" class="icon brands fa-tumblr"><span class="label">Tumblr</span></a></li>
+									</ul>
+								</div>
+							</div>
+							<h5>Actions</h5>
+							<ul class="actions">
+								<li><a href="#" class="button primary">Default</a></li>
+								<li><a href="#" class="button">Default</a></li>
+							</ul>
+							<ul class="actions small">
+								<li><a href="#" class="button primary small">Small</a></li>
+								<li><a href="#" class="button small">Small</a></li>
+							</ul>
+							<div class="row">
+								<div class="col-6 col-12-small">
+									<ul class="actions stacked">
+										<li><a href="#" class="button primary">Default</a></li>
+										<li><a href="#" class="button">Default</a></li>
+									</ul>
+								</div>
+								<div class="col-6 col-12-small">
+									<ul class="actions stacked">
+										<li><a href="#" class="button primary small">Small</a></li>
+										<li><a href="#" class="button small">Small</a></li>
+									</ul>
+								</div>
+								<div class="col-6 col-12-small">
+									<ul class="actions stacked">
+										<li><a href="#" class="button primary fit">Default</a></li>
+										<li><a href="#" class="button fit">Default</a></li>
+									</ul>
+								</div>
+								<div class="col-6 col-12-small">
+									<ul class="actions stacked">
+										<li><a href="#" class="button primary small fit">Small</a></li>
+										<li><a href="#" class="button small fit">Small</a></li>
+									</ul>
+								</div>
+							</div>
+						</section>
+
+						<section>
+							<h4>Table</h4>
+							<h5>Default</h5>
+							<div class="table-wrapper">
+								<table>
+									<thead>
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Price</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Item One</td>
+											<td>Ante turpis integer aliquet porttitor.</td>
+											<td>29.99</td>
+										</tr>
+										<tr>
+											<td>Item Two</td>
+											<td>Vis ac commodo adipiscing arcu aliquet.</td>
+											<td>19.99</td>
+										</tr>
+										<tr>
+											<td>Item Three</td>
+											<td> Morbi faucibus arcu accumsan lorem.</td>
+											<td>29.99</td>
+										</tr>
+										<tr>
+											<td>Item Four</td>
+											<td>Vitae integer tempus condimentum.</td>
+											<td>19.99</td>
+										</tr>
+										<tr>
+											<td>Item Five</td>
+											<td>Ante turpis integer aliquet porttitor.</td>
+											<td>29.99</td>
+										</tr>
+									</tbody>
+									<tfoot>
+										<tr>
+											<td colspan="2"></td>
+											<td>100.00</td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+
+							<h5>Alternate</h5>
+							<div class="table-wrapper">
+								<table class="alt">
+									<thead>
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Price</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Item One</td>
+											<td>Ante turpis integer aliquet porttitor.</td>
+											<td>29.99</td>
+										</tr>
+										<tr>
+											<td>Item Two</td>
+											<td>Vis ac commodo adipiscing arcu aliquet.</td>
+											<td>19.99</td>
+										</tr>
+										<tr>
+											<td>Item Three</td>
+											<td> Morbi faucibus arcu accumsan lorem.</td>
+											<td>29.99</td>
+										</tr>
+										<tr>
+											<td>Item Four</td>
+											<td>Vitae integer tempus condimentum.</td>
+											<td>19.99</td>
+										</tr>
+										<tr>
+											<td>Item Five</td>
+											<td>Ante turpis integer aliquet porttitor.</td>
+											<td>29.99</td>
+										</tr>
+									</tbody>
+									<tfoot>
+										<tr>
+											<td colspan="2"></td>
+											<td>100.00</td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</section>
+
+						<section>
+							<h4>Buttons</h4>
+							<ul class="actions">
+								<li><a href="#" class="button primary">Primary</a></li>
+								<li><a href="#" class="button">Default</a></li>
+							</ul>
+							<ul class="actions">
+								<li><a href="#" class="button large">Large</a></li>
+								<li><a href="#" class="button">Default</a></li>
+								<li><a href="#" class="button small">Small</a></li>
+							</ul>
+							<ul class="actions fit">
+								<li><a href="#" class="button primary fit">Fit</a></li>
+								<li><a href="#" class="button fit">Fit</a></li>
+							</ul>
+							<ul class="actions fit small">
+								<li><a href="#" class="button primary fit small">Fit + Small</a></li>
+								<li><a href="#" class="button fit small">Fit + Small</a></li>
+							</ul>
+							<ul class="actions">
+								<li><a href="#" class="button primary icon solid fa-download">Icon</a></li>
+								<li><a href="#" class="button icon solid fa-download">Icon</a></li>
+							</ul>
+							<ul class="actions">
+								<li><span class="button primary disabled">Primary</span></li>
+								<li><span class="button disabled">Default</span></li>
+							</ul>
+						</section>
+
+						<section>
+							<h4>Form</h4>
+							<form method="post" action="#">
+								<div class="row gtr-uniform gtr-50">
+									<div class="col-6 col-12-xsmall">
+										<input type="text" name="demo-name" id="demo-name" value="" placeholder="Name" />
+									</div>
+									<div class="col-6 col-12-xsmall">
+										<input type="email" name="demo-email" id="demo-email" value="" placeholder="Email" />
+									</div>
+									<div class="col-12">
+										<select name="demo-category" id="demo-category">
+											<option value="">- Category -</option>
+											<option value="1">Manufacturing</option>
+											<option value="1">Shipping</option>
+											<option value="1">Administration</option>
+											<option value="1">Human Resources</option>
+										</select>
+									</div>
+									<div class="col-4 col-12-small">
+										<input type="radio" id="demo-priority-low" name="demo-priority" checked>
+										<label for="demo-priority-low">Low Priority</label>
+									</div>
+									<div class="col-4 col-12-small">
+										<input type="radio" id="demo-priority-normal" name="demo-priority">
+										<label for="demo-priority-normal">Normal Priority</label>
+									</div>
+									<div class="col-4 col-12-small">
+										<input type="radio" id="demo-priority-high" name="demo-priority">
+										<label for="demo-priority-high">High Priority</label>
+									</div>
+									<div class="col-6 col-12-small">
+										<input type="checkbox" id="demo-copy" name="demo-copy">
+										<label for="demo-copy">Email me a copy of this message</label>
+									</div>
+									<div class="col-6 col-12-small">
+										<input type="checkbox" id="demo-human" name="demo-human" checked>
+										<label for="demo-human">I am a human and not a robot</label>
+									</div>
+									<div class="col-12">
+										<textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
+									</div>
+									<div class="col-12">
+										<ul class="actions">
+											<li><input type="submit" value="Send Message" class="primary" /></li>
+											<li><input type="reset" value="Reset" /></li>
+										</ul>
+									</div>
+								</div>
+							</form>
+						</section>
+
+						<section>
+							<h4>Image</h4>
+							<h5>Fit</h5>
+							<div class="box alt">
+								<div class="row gtr-50 gtr-uniform">
+									<div class="col-12"><span class="image fit"><img src="images/fulls/05.jpg" alt="" /></span></div>
+									<div class="col-4"><span class="image fit"><img src="images/thumbs/01.jpg" alt="" /></span></div>
+									<div class="col-4"><span class="image fit"><img src="images/thumbs/02.jpg" alt="" /></span></div>
+									<div class="col-4"><span class="image fit"><img src="images/thumbs/03.jpg" alt="" /></span></div>
+									<div class="col-4"><span class="image fit"><img src="images/thumbs/04.jpg" alt="" /></span></div>
+									<div class="col-4"><span class="image fit"><img src="images/thumbs/05.jpg" alt="" /></span></div>
+									<div class="col-4"><span class="image fit"><img src="images/thumbs/06.jpg" alt="" /></span></div>
+									<div class="col-4"><span class="image fit"><img src="images/thumbs/03.jpg" alt="" /></span></div>
+									<div class="col-4"><span class="image fit"><img src="images/thumbs/02.jpg" alt="" /></span></div>
+									<div class="col-4"><span class="image fit"><img src="images/thumbs/01.jpg" alt="" /></span></div>
+								</div>
+							</div>
+							<h5>Left &amp; Right</h5>
+							<p><span class="image left"><img src="images/avatar.jpg" alt="" /></span>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
+							<p><span class="image right"><img src="images/avatar.jpg" alt="" /></span>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
+						</section>
+
+					</section>
+				-->
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<ul class="icons">
+						<li><a href="https://github.com/BrandonLee0626" class="icon brands fa-github"><span class="label">Github</span></a></li>
+						<li><a href="mailto:leeminjae0626@dgist.ac.kr" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>&copy; Brandon Minjae Lee</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script>
+				// Kill parallax on mobile — runs after main.js attaches it
+				jQuery(window).on('load', function () {
+					if (window.innerWidth <= 980) {
+						jQuery(window).off('scroll.strata_parallax');
+						jQuery('#header').css('background-position', '');
+					}
+				});
+				jQuery(window).on('resize', function () {
+					if (window.innerWidth <= 980) {
+						jQuery(window).off('scroll.strata_parallax');
+						jQuery('#header').css('background-position', '');
+					}
+				});
+			</script>
+			<script src="assets/js/publications.js"></script>
+			<script>
+				(function () {
+					var SCHEDULE_URL = '/schedule.json';
+					var allItems = [];
+					var byDay = {};
+					var viewYear, viewMonth, selectedDay = null;
+					var MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+					var DOW_NAMES   = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+					var DOW_MAP = {
+						'sun':0,'sunday':0,'일':0,'일요일':0,
+						'mon':1,'monday':1,'월':1,'월요일':1,
+						'tue':2,'tuesday':2,'화':2,'화요일':2,
+						'wed':3,'wednesday':3,'수':3,'수요일':3,
+						'thu':4,'thursday':4,'목':4,'목요일':4,
+						'fri':5,'friday':5,'금':5,'금요일':5,
+						'sat':6,'saturday':6,'토':6,'토요일':6
+					};
+
+					function esc(s) {
+						return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+					}
+
+					function chipClass(item) {
+						if (item.type === '정기미팅' || item.type === '격주미팅') return 'recurring';
+						if (item.type === '마감일') return 'deadline';
+						if (item.type === 'TODO')   return 'todo';
+						return 'event';
+					}
+
+					function tagLabel(item) {
+						if (item.type === '정기미팅') return 'Weekly';
+						if (item.type === '격주미팅') return 'Biweekly';
+						if (item.type === '마감일')   return 'Deadline';
+						if (item.type === 'TODO')     return 'TODO';
+						return 'Event';
+					}
+
+					function buildByDay() {
+						byDay = {};
+						var daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+						allItems.forEach(function(item) {
+							var isRec = item.type === '정기미팅' || item.type === '격주미팅';
+							if (isRec) {
+								var dayVal = Array.isArray(item.day) ? item.day[0] : item.day;
+								var src = (dayVal || (item.time || '').split(/[\s:]/)[0] || '').toLowerCase().trim();
+								var dow = DOW_MAP.hasOwnProperty(src) ? DOW_MAP[src] : null;
+								if (dow === null) return;
+								var occ = [];
+								for (var d = 1; d <= daysInMonth; d++) {
+									if (new Date(viewYear, viewMonth, d).getDay() === dow) occ.push(d);
+								}
+								var days = occ;
+								if (item.type === '격주미팅') {
+									var startDate = item.startDate || item.start_date;
+									if (startDate) {
+										var ref = new Date(startDate);
+										days = occ.filter(function(d) {
+											var diff = Math.round((new Date(viewYear, viewMonth, d) - ref) / 86400000);
+											return diff >= 0 && diff % 14 === 0;
+										});
+									} else {
+										days = [occ[0], occ[2]].filter(Boolean);
+									}
+								}
+								days.forEach(function(d) {
+									if (!byDay[d]) byDay[d] = [];
+									byDay[d].push({item: item, pos: 'single'});
+								});
+							} else {
+								if (!item.date) return;
+								var startDt = new Date(item.date);
+								if (isNaN(startDt.getTime())) return;
+								var endDt = item.end_date ? new Date(item.end_date) : null;
+								if (!endDt || isNaN(endDt.getTime()) || endDt <= startDt) {
+									if (startDt.getUTCFullYear() === viewYear && startDt.getUTCMonth() === viewMonth) {
+										var k = startDt.getUTCDate();
+										if (!byDay[k]) byDay[k] = [];
+										byDay[k].push({item: item, pos: 'single'});
+									}
+								} else {
+									var monthStartUTC = Date.UTC(viewYear, viewMonth, 1);
+									var monthEndUTC   = Date.UTC(viewYear, viewMonth + 1, 0);
+									var rangeStart = Math.max(startDt.getTime(), monthStartUTC);
+									var rangeEnd   = Math.min(endDt.getTime(),   monthEndUTC);
+									if (rangeStart > rangeEnd) return;
+									for (var cur = rangeStart; cur <= rangeEnd; cur += 86400000) {
+										var dayNum = new Date(cur).getUTCDate();
+										if (!byDay[dayNum]) byDay[dayNum] = [];
+										var isFirst = cur === startDt.getTime();
+										var isLast  = cur === endDt.getTime();
+										var pos = (isFirst && isLast) ? 'single'
+											: isFirst ? 'start'
+											: isLast  ? 'end'
+											: 'mid';
+										byDay[dayNum].push({item: item, pos: pos});
+									}
+								}
+							}
+						});
+					}
+
+					function renderGrid() {
+						var today = new Date();
+						var isCurrentMonth = (viewYear === today.getFullYear() && viewMonth === today.getMonth());
+						var daysInMonth    = new Date(viewYear, viewMonth + 1, 0).getDate();
+						var firstDow       = new Date(viewYear, viewMonth, 1).getDay();
+						var numWeeks       = Math.ceil((firstDow + daysInMonth) / 7);
+						var monthStartUTC  = Date.UTC(viewYear, viewMonth, 1);
+						var monthEndUTC    = Date.UTC(viewYear, viewMonth + 1, 0);
+
+						var html = '<div class="cal-header">'
+							+ '<button class="cal-nav" id="cal-prev">&#8249;</button>'
+							+ '<span class="cal-month-label">' + MONTH_NAMES[viewMonth] + ' ' + viewYear + '</span>'
+							+ '<button class="cal-nav" id="cal-next">&#8250;</button>'
+							+ '</div><div class="cal-grid">';
+
+						DOW_NAMES.forEach(function(d) { html += '<div class="cal-dow">' + d + '</div>'; });
+
+						for (var w = 0; w < numWeeks; w++) {
+							var wDayStart = Math.max(1, w * 7 - firstDow + 1);
+							var wDayEnd   = Math.min(daysInMonth, (w + 1) * 7 - firstDow);
+
+							html += '<div class="cal-week"><div class="cal-days-inner">';
+
+							for (var col = 1; col <= 7; col++) {
+								var cellIdx = w * 7 + col - 1;
+								var day     = cellIdx - firstDow + 1;
+								if (day < 1 || day > daysInMonth) {
+									html += '<div class="cal-cell empty"></div>';
+									continue;
+								}
+								var isToday = isCurrentMonth && day === today.getDate();
+								var isSel   = selectedDay === day;
+								var cls     = 'cal-cell' + (isToday ? ' today' : '') + (isSel ? ' selected' : '');
+								html += '<div class="' + cls + '" data-day="' + day + '">';
+								html += '<span class="cal-cell-num">' + day + '</span>';
+								var chips = (byDay[day] || []).filter(function(e) { return e.pos === 'single'; });
+								chips.slice(0, 3).forEach(function(entry) {
+									html += '<span class="cal-event-chip ' + chipClass(entry.item) + '">' + esc(entry.item.name) + '</span>';
+								});
+								if (chips.length > 3) html += '<span class="cal-event-chip more">+' + (chips.length - 3) + ' more</span>';
+								html += '</div>';
+							}
+							html += '</div>'; // .cal-days-inner
+
+							// Multi-day event bars for this week
+							var bars = [];
+							allItems.forEach(function(item) {
+								if (!item.date || !item.end_date) return;
+								var startDt = new Date(item.date);
+								var endDt   = new Date(item.end_date);
+								if (isNaN(startDt.getTime()) || isNaN(endDt.getTime()) || endDt <= startDt) return;
+								if (endDt.getTime() < monthStartUTC || startDt.getTime() > monthEndUTC) return;
+								var evStart = startDt.getTime() < monthStartUTC ? 1 : startDt.getUTCDate();
+								var evEnd   = endDt.getTime() > monthEndUTC ? daysInMonth : endDt.getUTCDate();
+								if (evStart > wDayEnd || evEnd < wDayStart) return;
+								var cs = Math.max(evStart, wDayStart);
+								var ce = Math.min(evEnd,   wDayEnd);
+								var colS = (cs - 1 + firstDow) % 7 + 1;
+								var colE = (ce - 1 + firstDow) % 7 + 2;
+								var capS = cs === evStart, capE = ce === evEnd;
+								var cap  = (capS && capE) ? 'cap-both' : capS ? 'cap-start' : capE ? 'cap-end' : '';
+								bars.push({item: item, colS: colS, colE: colE, cap: cap, day: cs});
+							});
+							if (bars.length) {
+								html += '<div class="cal-events-inner">';
+								bars.forEach(function(b) {
+									html += '<div class="cal-event-bar ' + chipClass(b.item) + (b.cap ? ' ' + b.cap : '') + '"'
+										+ ' style="grid-column:' + b.colS + '/' + b.colE + '"'
+										+ ' data-bar-day="' + b.day + '">' + esc(b.item.name) + '</div>';
+								});
+								html += '</div>';
+							}
+
+							html += '</div>'; // .cal-week
+						}
+
+						html += '</div>';
+						return html;
+					}
+
+					function renderDetail() {
+						if (selectedDay === null) return '';
+						var entries = byDay[selectedDay] || [];
+						var d     = new Date(viewYear, viewMonth, selectedDay);
+						var label = d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+						var html  = '<div id="cal-detail"><div class="cal-detail-header">' + esc(label) + '</div>';
+						if (!entries.length) {
+							html += '<div class="cal-detail-empty">No events</div>';
+						} else {
+							entries.forEach(function(entry) {
+								var item = entry.item;
+								var cls  = chipClass(item);
+								var metaParts = [];
+								if (item.end_date) {
+									var fmt = {month:'short', day:'numeric'};
+									metaParts.push(new Date(item.date).toLocaleDateString('en-US', fmt) + ' – ' + new Date(item.end_date).toLocaleDateString('en-US', fmt));
+								}
+								if (item.time) metaParts.push(item.time);
+								if (item.location) metaParts.push(item.location);
+								if (item.project) metaParts.push(item.project);
+								var meta = metaParts.join(' · ');
+								html += '<div class="cal-detail-item">'
+									+ '<div class="cal-detail-dot ' + cls + '"></div>'
+									+ '<div class="cal-detail-info">'
+									+ '<div class="cal-detail-name">' + esc(item.name)
+									+ '<span class="cal-detail-tag ' + cls + '">' + tagLabel(item) + '</span>'
+									+ '</div>'
+									+ (meta ? '<div class="cal-detail-meta">' + esc(meta) + '</div>' : '')
+									+ '</div></div>';
+							});
+						}
+						return html + '</div>';
+					}
+
+					function renderUndatedTodos() {
+						var undated = allItems.filter(function(i) { return i.type === 'TODO' && !i.date; });
+						if (!undated.length) return '';
+						var rows = undated.map(function(m) {
+							return '<div class="todo-item">'
+								+ '<div class="todo-check"></div>'
+								+ '<div class="todo-info"><strong>' + esc(m.name) + '</strong>'
+								+ (m.project ? '<div class="todo-due">' + esc(m.project) + '</div>' : '')
+								+ '</div></div>';
+						}).join('');
+						return '<div class="sched-undated"><h3>In Progress</h3>' + rows + '</div>';
+					}
+
+					function redraw() {
+						var container = document.getElementById('schedule-list');
+						buildByDay();
+						container.innerHTML = renderGrid() + renderDetail() + renderUndatedTodos();
+
+						document.getElementById('cal-prev').addEventListener('click', function() {
+							viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+							selectedDay = null; redraw();
+						});
+						document.getElementById('cal-next').addEventListener('click', function() {
+							viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+							selectedDay = null; redraw();
+						});
+						container.querySelectorAll('.cal-cell:not(.empty)').forEach(function(cell) {
+							cell.addEventListener('click', function() {
+								var day = parseInt(this.getAttribute('data-day'), 10);
+								selectedDay = (selectedDay === day) ? null : day;
+								redraw();
+							});
+						});
+						container.querySelectorAll('.cal-event-bar').forEach(function(bar) {
+							bar.addEventListener('click', function(e) {
+								e.stopPropagation();
+								var day = parseInt(this.getAttribute('data-bar-day'), 10);
+								selectedDay = (selectedDay === day) ? null : day;
+								redraw();
+							});
+						});
+					}
+
+					function renderSchedule(data) {
+						var container = document.getElementById('schedule-list');
+						allItems = data.items || [];
+						if (!allItems.length) {
+							container.innerHTML = '<p style="color:#bbb;font-style:italic;font-size:0.9em;">No public schedule items at the moment.</p>';
+							return;
+						}
+						var today = new Date();
+						viewYear = today.getFullYear(); viewMonth = today.getMonth();
+						redraw();
+						if (data.updated) {
+							var sync = document.createElement('p');
+							sync.className = 'sched-sync';
+							sync.textContent = 'Last synced: ' + new Date(data.updated).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric', hour:'2-digit', minute:'2-digit'});
+							container.appendChild(sync);
+						}
+					}
+
+					fetch(SCHEDULE_URL + '?_=' + Date.now())
+						.then(function(r) { return r.json(); })
+						.then(renderSchedule)
+						.catch(function() { document.getElementById('schedule-list').innerHTML = ''; });
+				})();
+			</script>
+			<script>
+				(function () {
+					var body = document.body;
+
+					/* ── pub 뒤로가기 시 scroll target 복원 (hash 없이 이동) ── */
+					var scrollTarget = sessionStorage.getItem('scrollTarget');
+					if (scrollTarget) {
+						sessionStorage.removeItem('scrollTarget');
+						var targetEl = document.getElementById(scrollTarget);
+						if (targetEl) {
+							document.documentElement.style.scrollBehavior = 'auto';
+							targetEl.scrollIntoView();
+							document.documentElement.style.scrollBehavior = '';
+						}
+					}
+
+					/* ── Fade-in + no-transition 해제 ── */
+					requestAnimationFrame(function () {
+						requestAnimationFrame(function () { body.classList.remove('page-in', 'no-transition'); });
+					});
+
+					/* ── bfcache 복원 시 page-out 제거 + shrunk 재동기화 ── */
+					window.addEventListener('pageshow', function (e) {
+						if (e.persisted) {
+							body.classList.remove('page-out', 'page-in', 'no-transition');
+							body.classList.toggle('shrunk', window.scrollY > 80);
+						}
+					});
+
+					/* ── scroll-margin-top: navbar 실제 높이에 맞춤 ── */
+					var navbar = document.getElementById('navbar');
+					var header = document.getElementById('header');
+					var allSections = document.querySelectorAll('section[id]');
+					function updateScrollMargin() {
+						var h = navbar.offsetHeight + 'px';
+						allSections.forEach(function (s) { s.style.scrollMarginTop = h; });
+					}
+					function updateHeaderOffset() {
+						if (window.innerWidth <= 980) {
+							header.style.marginTop = navbar.offsetHeight + 'px';
+						} else {
+							header.style.marginTop = '';
+						}
+					}
+					updateScrollMargin();
+					updateHeaderOffset();
+					window.addEventListener('resize', function () { updateScrollMargin(); updateHeaderOffset(); });
+
+					/* ── Sidebar shrink + active nav ── */
+					var links    = document.querySelectorAll('#navbar a');
+					var sections = Array.from(allSections);
+
+					var navigatingToTop = false;
+					var navTimer = null;
+
+					function clearNavFlag() {
+						navigatingToTop = false;
+						clearTimeout(navTimer);
+					}
+
+					window.addEventListener('scroll', function () {
+						if (window.innerWidth <= 980) {
+							body.classList.remove('shrunk');
+						} else if (navigatingToTop) {
+							body.classList.remove('shrunk');
+							if (window.scrollY <= 5) clearNavFlag();
+						} else {
+							body.classList.toggle('shrunk', window.scrollY > 80);
+						}
+						sessionStorage.setItem('shrunkState', body.classList.contains('shrunk') ? 'shrunk' : 'normal');
+						var offset = window.innerWidth <= 980 ? window.innerHeight / 2 : 100;
+						var scrollY = window.scrollY + offset;
+						var current = sections[0].id;
+						var atBottom = (window.innerHeight + window.scrollY) >= document.body.scrollHeight - 10;
+						if (atBottom) {
+							current = sections[sections.length - 1].id;
+						} else {
+							sections.forEach(function (s) {
+								if (s.offsetTop <= scrollY) current = s.id;
+							});
+						}
+						links.forEach(function (a) {
+							a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+						});
+					}, { passive: true });
+
+					/* ── 클릭: 즉시 active 반영 + hover sticky 방지 ── */
+					links.forEach(function (a) {
+						a.addEventListener('click', function () {
+							links.forEach(function (l) { l.classList.remove('active'); });
+							a.classList.add('active');
+							setTimeout(function () { a.blur(); }, 300);
+
+							if (a.getAttribute('href') === '#' + sections[0].id) {
+								body.classList.remove('shrunk');
+								navigatingToTop = true;
+								clearTimeout(navTimer);
+								navTimer = setTimeout(clearNavFlag, 900);
+							}
+						});
+					});
+
+					/* ── Generate publication cards ── */
+					var grid = document.getElementById('pub-grid');
+					PUBLICATIONS.forEach(function (pub) {
+						var thumbHtml = pub.thumb
+							? '<a href="pub/paper.html?id=' + pub.id + '" class="pub-card image fit">'
+							  + '<img src="images/thumbs/' + pub.thumb + '" alt="' + pub.title + '" />'
+							  + '<div class="pub-overlay"><span>View</span></div>'
+							  + '</a>'
+							: '';
+						var article = document.createElement('article');
+						article.className = 'col-6 col-12-small work-item';
+						article.innerHTML =
+							thumbHtml
+							+ '<h3><a href="pub/paper.html?id=' + pub.id + '">' + pub.title + '</a></h3>'
+							+ '<p>' + pub.authors.split(',')[0].trim()
+							  + (pub.authors.includes(',') ? ' et al.' : '')
+							  + ' &nbsp;·&nbsp; <em>' + pub.venue + '</em> &nbsp;·&nbsp; ' + pub.year + '</p>';
+						grid.appendChild(article);
+					});
+
+					/* ── Pub 링크 클릭: shrunk 상태 저장 + fade-out 후 이동 ── */
+					document.addEventListener('click', function (e) {
+						var link = e.target.closest('a[href*="pub/paper.html"]');
+						if (!link) return;
+						e.preventDefault();
+						var href = link.href;
+						sessionStorage.setItem('transition', body.classList.contains('shrunk') ? 'shrunk' : 'normal');
+						body.classList.add('page-out');
+						setTimeout(function () { window.location.href = href; }, 300);
+					});
+				})();
+			</script>
+
+	</body>
+</html>
