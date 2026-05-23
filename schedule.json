@@ -1,8 +1,8 @@
 {
-  "updated": "2026-05-18T17:24:09.584368+09:00",
+  "updated": "2026-05-19T17:21:12.805126+09:00",
   "items": [
     {
-      "name": "UCR 인턴",
+      "name": "UCR Internship",
       "type": "이벤트",
       "date": "2026-07-14",
       "time": "",
@@ -11,7 +11,7 @@
       "end_date": "2026-09-14"
     },
     {
-      "name": "CORE-AI Lab 워크샵 @ ICML",
+      "name": "CORE-AI Lab Workshop @ ICML",
       "type": "이벤트",
       "date": "2026-07-06",
       "time": "",
