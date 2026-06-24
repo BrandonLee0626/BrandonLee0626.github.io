@@ -422,6 +422,7 @@
 								<span class="news-text"><span class="news-tag award">Award</span>Received the <strong>DGIST President's Fellowship (DPF)</strong>.</span>
 							</li>
 						</ul>
+						<button id="news-toggle" onclick="toggleNews()" style="display:none">Show more</button>
 					</section>
 
 				<!-- Three -->
@@ -816,6 +817,23 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 				});
 			</script>
 			<script src="assets/js/publications.js"></script>
+			<script>
+				(function () {
+					var LIMIT = 5;
+					var expanded = false;
+					var items = document.querySelectorAll('#news-list .news-item');
+					var btn = document.getElementById('news-toggle');
+					if (items.length > LIMIT) {
+						for (var i = LIMIT; i < items.length; i++) items[i].classList.add('hidden');
+						btn.style.display = '';
+					}
+					window.toggleNews = function () {
+						expanded = !expanded;
+						for (var i = LIMIT; i < items.length; i++) items[i].classList.toggle('hidden', !expanded);
+						btn.textContent = expanded ? 'Show less' : 'Show more';
+					};
+				})();
+			</script>
 			<script>
 				(function () {
 					var body = document.body;
