@@ -219,6 +219,64 @@
 				}
 			}
 
+			/* ── News Section ── */
+			.news-list { margin: 0; padding: 0; list-style: none; }
+			.news-item {
+				display: flex;
+				gap: 1.2em;
+				padding: 0.85em 0;
+				border-bottom: 1px solid #f0f0f0;
+				align-items: baseline;
+			}
+			.news-item:first-child { padding-top: 0.2em; }
+			.news-item:last-child { border-bottom: none; padding-bottom: 0; }
+			.news-item.hidden { display: none; }
+			.news-date {
+				font-size: 0.78em;
+				color: #bbb;
+				white-space: nowrap;
+				flex-shrink: 0;
+				min-width: 5.5em;
+				font-variant-numeric: tabular-nums;
+			}
+			.news-text {
+				font-size: 0.92em;
+				color: #666;
+				line-height: 1.55;
+			}
+			.news-text a { color: #49bf9d; text-decoration: none; }
+			.news-text a:hover { text-decoration: underline; }
+			.news-tag {
+				display: inline-block;
+				font-size: 0.7em;
+				font-weight: 600;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+				padding: 0.15em 0.55em;
+				border-radius: 20px;
+				margin-right: 0.45em;
+				vertical-align: middle;
+				position: relative;
+				top: -0.05em;
+			}
+			.news-tag.paper    { background: #eef2ff; color: #5566bb; }
+			.news-tag.award    { background: #fff8e6; color: #c08800; }
+			.news-tag.talk     { background: #f0faf2; color: #3a8a5a; }
+			.news-tag.service  { background: #fdf0ff; color: #9955bb; }
+			.news-tag.misc     { background: #f5f5f5; color: #888; }
+			#news-toggle {
+				margin-top: 1.1em;
+				background: none;
+				border: 1px solid #ddd;
+				border-radius: 6px;
+				padding: 0.45em 1.2em;
+				font-size: 0.8em;
+				color: #999;
+				cursor: pointer;
+				transition: border-color 0.2s, color 0.2s;
+			}
+			#news-toggle:hover { border-color: #49bf9d; color: #49bf9d; }
+
 		</style>
 	</head>
 	<body class="is-preload">
@@ -250,6 +308,7 @@
 				<a href="#experience">Experience</a>
 				<a href="#publications">Publications</a>
 				<a href="#awards">Awards</a>
+				<a href="#news">News</a>
 				<a href="#three">Contact</a>
 			</nav>
 
@@ -344,6 +403,42 @@
 								<div class="exp-meta">Jun. 2024 – Present</div>
 							</div>
 						</div>
+					</section>
+
+				<!-- News -->
+					<section id="news">
+						<h2>News</h2>
+						<ul class="news-list" id="news-list">
+							<li class="news-item">
+								<span class="news-date">Jun. 2025</span>
+								<span class="news-text"><span class="news-tag paper">Paper</span>Submitted a paper to <strong>CoRL 2025</strong>.</span>
+							</li>
+							<li class="news-item">
+								<span class="news-date">Mar. 2025</span>
+								<span class="news-text"><span class="news-tag award">Award</span>Received the <strong>DGIST President's Fellowship (DPF)</strong> renewal for the second year.</span>
+							</li>
+							<li class="news-item">
+								<span class="news-date">Jan. 2025</span>
+								<span class="news-text"><span class="news-tag misc">Misc</span>Started a new research project on Continual Merging for lifelong robot learning.</span>
+							</li>
+							<li class="news-item">
+								<span class="news-date">Sep. 2024</span>
+								<span class="news-text"><span class="news-tag talk">Talk</span>Presented research at the CORE-AI Lab weekly seminar on Machine Unlearning.</span>
+							</li>
+							<li class="news-item">
+								<span class="news-date">Jun. 2024</span>
+								<span class="news-text"><span class="news-tag award">Award</span>Received the <strong>DGIST President's Fellowship (DPF)</strong>.</span>
+							</li>
+							<li class="news-item hidden">
+								<span class="news-date">Mar. 2024</span>
+								<span class="news-text"><span class="news-tag misc">Misc</span>Joined CORE-AI Lab as an undergraduate researcher.</span>
+							</li>
+							<li class="news-item hidden">
+								<span class="news-date">Mar. 2023</span>
+								<span class="news-text"><span class="news-tag misc">Misc</span>Enrolled at DGIST, majoring in Computer Engineering.</span>
+							</li>
+						</ul>
+						<button id="news-toggle" onclick="toggleNews()">Show more</button>
 					</section>
 
 				<!-- Three -->
@@ -738,6 +833,16 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 				});
 			</script>
 			<script src="assets/js/publications.js"></script>
+			<script>
+				var newsExpanded = false;
+				function toggleNews() {
+					newsExpanded = !newsExpanded;
+					document.querySelectorAll('#news-list .news-item').forEach(function(el, i) {
+						if (i >= 5) el.classList.toggle('hidden', !newsExpanded);
+					});
+					document.getElementById('news-toggle').textContent = newsExpanded ? 'Show less' : 'Show more';
+				}
+			</script>
 			<script>
 				(function () {
 					var body = document.body;
