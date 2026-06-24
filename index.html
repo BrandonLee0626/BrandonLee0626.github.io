@@ -410,35 +410,18 @@
 						<h2>News</h2>
 						<ul class="news-list" id="news-list">
 							<li class="news-item">
-								<span class="news-date">Jun. 2025</span>
-								<span class="news-text"><span class="news-tag paper">Paper</span>Submitted a paper to <strong>CoRL 2025</strong>.</span>
-							</li>
-							<li class="news-item">
-								<span class="news-date">Mar. 2025</span>
-								<span class="news-text"><span class="news-tag award">Award</span>Received the <strong>DGIST President's Fellowship (DPF)</strong> renewal for the second year.</span>
-							</li>
-							<li class="news-item">
-								<span class="news-date">Jan. 2025</span>
-								<span class="news-text"><span class="news-tag misc">Misc</span>Started a new research project on Continual Merging for lifelong robot learning.</span>
+								<span class="news-date">Jul. 2026</span>
+								<span class="news-text"><span class="news-tag misc">Misc</span>Converted to <strong>Joint BS–MS–Ph.D</strong> program at DGIST.</span>
 							</li>
 							<li class="news-item">
 								<span class="news-date">Sep. 2024</span>
-								<span class="news-text"><span class="news-tag talk">Talk</span>Presented research at the CORE-AI Lab weekly seminar on Machine Unlearning.</span>
+								<span class="news-text"><span class="news-tag misc">Misc</span>Joined <strong>CORE-AI Lab</strong> as an undergraduate researcher.</span>
 							</li>
 							<li class="news-item">
 								<span class="news-date">Jun. 2024</span>
 								<span class="news-text"><span class="news-tag award">Award</span>Received the <strong>DGIST President's Fellowship (DPF)</strong>.</span>
 							</li>
-							<li class="news-item hidden">
-								<span class="news-date">Mar. 2024</span>
-								<span class="news-text"><span class="news-tag misc">Misc</span>Joined CORE-AI Lab as an undergraduate researcher.</span>
-							</li>
-							<li class="news-item hidden">
-								<span class="news-date">Mar. 2023</span>
-								<span class="news-text"><span class="news-tag misc">Misc</span>Enrolled at DGIST, majoring in Computer Engineering.</span>
-							</li>
 						</ul>
-						<button id="news-toggle" onclick="toggleNews()">Show more</button>
 					</section>
 
 				<!-- Three -->
@@ -833,16 +816,6 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 				});
 			</script>
 			<script src="assets/js/publications.js"></script>
-			<script>
-				var newsExpanded = false;
-				function toggleNews() {
-					newsExpanded = !newsExpanded;
-					document.querySelectorAll('#news-list .news-item').forEach(function(el, i) {
-						if (i >= 5) el.classList.toggle('hidden', !newsExpanded);
-					});
-					document.getElementById('news-toggle').textContent = newsExpanded ? 'Show less' : 'Show more';
-				}
-			</script>
 			<script>
 				(function () {
 					var body = document.body;
